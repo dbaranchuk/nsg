@@ -581,7 +581,6 @@ void IndexNSG::SearchWithOptGraph(
     L++;
     if (++dcs == max_dcs) break;
   }
-  std::cout << L << std::endl;
 
   std::sort(retset.begin(), retset.begin() + L);
   int k = 0;

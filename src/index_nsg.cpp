@@ -542,7 +542,7 @@ void IndexNSG::SearchWithOptGraph(
 
   P = P > K ? P : K;
   std::vector <Neighbor> retset(P + 1);
-  std::vector<unsigned> init_ids(MaxM_ep)//L);
+  std::vector<unsigned> init_ids(MaxM_ep);//L);
 
 //  int seed = 215464334;
 //  std::mt19937 rng(seed);

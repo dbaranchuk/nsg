@@ -537,7 +537,7 @@ void IndexNSG::SearchWithOptGraph(
   unsigned P = parameters.Get<unsigned>("P_search");
   DistanceFastL2* dist_fast = (DistanceFastL2*)distance_;
 
-  size_t max_dcs = 256;
+  size_t max_dcs = 512;
   size_t dcs = 0;
 
   P = P > K ? P : K;

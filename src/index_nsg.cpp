@@ -469,6 +469,9 @@ void IndexNSG::Search(
   //std::mt19937 rng(rand());
   //GenRandom(rng, init_ids.data(), L, (unsigned) nd_);
 
+  size_t max_dcs = 128;
+  size_t dcs = 0;
+
   unsigned tmp_l = 0;
   for(; tmp_l<L && tmp_l<final_graph_[ep_].size(); tmp_l++){
     init_ids[tmp_l] = final_graph_[ep_][tmp_l];
@@ -488,6 +491,7 @@ void IndexNSG::Search(
     unsigned id = init_ids[i];
     float dist = distance_->compare(data_ + dimension_ * id, query, (unsigned) dimension_);
     retset[i] = Neighbor(id, dist, true);
+    if (++dcs == max_dcs) break;
     //flags[id] = true;
   }
 
@@ -505,14 +509,17 @@ void IndexNSG::Search(
         if (flags[id])continue;
         flags[id] = 1;
         float dist = distance_->compare(query, data_ + dimension_ * id, (unsigned) dimension_);
-        if (dist >= retset[L - 1].distance)continue;
+        dcs++;
+        if (dist >= retset[L - 1].distance && dcs >= max_dcs) break;
+        if (dist >= retset[L - 1].distance) continue;
         Neighbor nn(id, dist, true);
         int r = InsertIntoPool(retset.data(), L, nn);
 
         if (r < nk)nk = r;
+        if (dcs >= max_dcs) break;
       }
     }
-    if (nk <= k)k = nk;
+    if (nk <= k) k = nk;
     else ++k;
   }
   for (size_t i = 0; i < K; i++) {
@@ -528,6 +535,9 @@ void IndexNSG::SearchWithOptGraph(
   unsigned L = parameters.Get<unsigned>("L_search");
   unsigned P = parameters.Get<unsigned>("P_search");
   DistanceFastL2* dist_fast = (DistanceFastL2*)distance_;
+
+  size_t max_dcs = 128;
+  size_t dcs = 0;
 
   P = P > K ? P : K;
   std::vector <Neighbor> retset(P + 1);
@@ -569,8 +579,9 @@ void IndexNSG::SearchWithOptGraph(
     retset[i] = Neighbor(id, dist, true);
     flags[id] = true;
     L++;
+    if (++dcs == max_dcs) break;
   }
-  //std::cout<<L<<std::endl;
+  std::cout << L << std::endl;
 
   std::sort(retset.begin(), retset.begin() + L);
   int k = 0;
@@ -594,12 +605,15 @@ void IndexNSG::SearchWithOptGraph(
         float *data = (float*)(opt_graph_ + node_size * id);
         float norm = *data;data++;
         float dist = dist_fast->compare(query, data, norm, (unsigned) dimension_);
-        if (dist >= retset[L - 1].distance)continue;
+        dcs++;
+        if (dist >= retset[L - 1].distance && dcs >= max_dcs) break;
+        if (dist >= retset[L - 1].distance) continue;
         Neighbor nn(id, dist, true);
         int r = InsertIntoPool(retset.data(), L, nn);
 
         //if(L+1 < retset.size()) ++L;
         if (r < nk)nk = r;
+        if (dcs >= max_dcs) break;
       }
 
     }

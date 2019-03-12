@@ -13,7 +13,7 @@ void load_data(char* filename, float*& data, unsigned& num,
     exit(-1);
   }
   in.read((char*)&dim, 4);
-  std::cout << "data dimension: " << dim << std::endl;
+//  std::cout << "data dimension: " << dim << std::endl;
   in.seekg(0, std::ios::end);
   std::ios::pos_type ss = in.tellg();
   size_t fsize = (size_t)ss;
@@ -80,7 +80,7 @@ int main(int argc, char** argv) {
   }
   auto e = std::chrono::high_resolution_clock::now();
   std::chrono::duration<double> diff = e - s;
-  std::cout << "search time: " << diff.count() << "\n";
+  std::cout << "search time: " << 1e-6 * diff.count() / (float) query_num<< "\n";
 
   save_result(argv[6], res);
 

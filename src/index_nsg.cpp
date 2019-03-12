@@ -579,7 +579,7 @@ void IndexNSG::SearchWithOptGraph(
     retset[i] = Neighbor(id, dist, true);
     flags[id] = true;
     L++;
-    if (++dcs == max_dcs) break;
+    if (++dcs >= max_dcs) break;
   }
 
   std::sort(retset.begin(), retset.begin() + L);
@@ -618,7 +618,8 @@ void IndexNSG::SearchWithOptGraph(
     }
     if (nk <= k)k = nk;
     else ++k;
-    }
+    if (dcs >= max_dcs) break;
+  }
 
   for (size_t i = 0; i < K; i++) {
     indices[i] = retset[i].id;

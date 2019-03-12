@@ -546,7 +546,7 @@ void IndexNSG::SearchWithOptGraph(
 
   int seed = 215464334;
   std::mt19937 rng(seed);
-  //GenRandom(rng, init_ids.data(), L, (unsigned) nd_);
+  GenRandom(rng, init_ids.data(), L, (unsigned) nd_);
 
   boost::dynamic_bitset<> flags{nd_, 0};
   unsigned tmp_l = 0;
@@ -555,6 +555,7 @@ void IndexNSG::SearchWithOptGraph(
   neighbors++;
 
   for(; tmp_l < L && tmp_l < MaxM_ep; tmp_l++){
+    std::cout << init_ids[tmp_l] << std::endl;
     init_ids[tmp_l] = neighbors[tmp_l];
     flags[init_ids[tmp_l]] = true;
   }

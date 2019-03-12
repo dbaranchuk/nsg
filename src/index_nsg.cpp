@@ -543,7 +543,9 @@ void IndexNSG::SearchWithOptGraph(
   P = P > K ? P : K;
   std::vector <Neighbor> retset(P + 1);
   std::vector<unsigned> init_ids(L);
-  //std::mt19937 rng(rand());
+
+  int seed = 215464334;
+  std::mt19937 rng(seed);
   //GenRandom(rng, init_ids.data(), L, (unsigned) nd_);
 
   boost::dynamic_bitset<> flags{nd_, 0};

@@ -619,9 +619,11 @@ void IndexNSG::SearchWithOptGraph(
     if (nk <= k)k = nk;
     else ++k;
     }
+
   for (size_t i = 0; i < K; i++) {
     indices[i] = retset[i].id;
   }
+  std::cout << dcs << " " << max_dcs << std::endl;
 }
 
 

@@ -561,7 +561,7 @@ void IndexNSG::SearchWithOptGraph(
   }
 
   while(tmp_l < L){
-    unsigned id = rand() % nd_;
+//    unsigned id = rand() % nd_;
     if(flags[id])continue;
     flags[id] = true;
     init_ids[tmp_l] = id;

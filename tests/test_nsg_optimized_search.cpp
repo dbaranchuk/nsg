@@ -84,7 +84,7 @@ int main(int argc, char** argv) {
   }
   auto e = std::chrono::high_resolution_clock::now();
   std::chrono::duration<double> diff = e - s;
-  std::cout << "search time: " << 1e-6 * diff.count() / (float) query_num << "\n";
+  std::cout << "search time: " << 1e6 * diff.count() / (float) query_num << "\n";
 
   save_result(argv[6], res);
 
